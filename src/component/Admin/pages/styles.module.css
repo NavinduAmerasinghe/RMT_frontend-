@@ -1,0 +1,131 @@
+.signup_container {
+  width: 120%;
+  min-height: 10vh;
+  /* background-color: #f5f5f5; */
+  /* background-image: url("../Images/add.jpg"); */
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  justify-content: center;
+}
+
+.signup_form_container {
+  width: 800px;
+  height: 500px;
+  display: flex;
+  border-radius: 10px;
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
+    0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #4282a3; */
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  font-family: "Times New Roman";
+  /* background-image: url("../Images/hotel3.jpg"); */
+}
+
+.left h4 {
+  margin-top: 0;
+  color: white;
+  font-size: 20px;
+  align-self: center;
+}
+
+.right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #b2bec3;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.form_container {
+  display: flex;
+  flex-direction: column;
+  font-family: "Times New Roman";
+  align-items: center;
+}
+
+.form_container h1 {
+  font-size: 40px;
+  margin-top: 0;
+}
+
+.input {
+  outline: none;
+  border: 1px solid #151b54;
+  width: 370px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #edf5f3;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.error_msg {
+  width: 370px;
+  padding: 15px;
+  margin: 5px 0;
+  font-size: 14px;
+  background-color: #f34646;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.white_btn,
+.green_btn {
+  border: none;
+  outline: none;
+  padding: 12px 0;
+  background-color: white;
+  border-radius: 20px;
+  width: 180px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.green_btn {
+  background-color: #3bb19b;
+  color: white;
+  margin: 10px;
+}
+
+.green_btn:hover {
+  background-color: #3e8e41;
+}
+
+.green_btn:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.white_btn:hover {
+  background-color: #3bb19b;
+}
+
+.white_btn:active {
+  background-color: #3bb19b;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button_dot {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  color: black;
+}
