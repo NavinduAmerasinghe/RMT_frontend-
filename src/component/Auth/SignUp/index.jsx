@@ -5,11 +5,14 @@ import styles from "./styles.module.css";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const Signup = (props) => {
   const [data, setData] = useState({
     username: "",
     password: "",
+    password2: "",
     email: "",
     phone: "",
     role: "",
@@ -24,20 +27,34 @@ const Signup = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const url = "http://localhost:8000/api/auth/register";
-      const { data: res } = await axios.post(url, data);
-      navigate("/login");
-      console.log(res.message);
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
+    if (data.password == data.password2) {
+      try {
+        const url = "http://localhost:8000/api/auth/register";
+        const { data: res } = await axios.post(url, data);
+        navigate("/login");
+        console.log(res.message);
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status <= 500
+        ) {
+          setError(error.response.data.message);
+        }
       }
+    } else {
+      alert("Passwords do not match!");
     }
+  };
+
+  const handleRoleChange = async (e) => {
+    e.preventDefault();
+    await setData({ ...data, role: e.target.value });
+    // if (this.state.role.includes("student")) {
+    //   await setData({ isstudent: true });
+    // } else {
+    //   await setData({ isstudent: false });
+    // }
   };
 
   return (
@@ -75,6 +92,15 @@ const Signup = (props) => {
               className={styles.input}
             />
             <input
+              type="password"
+              placeholder="Confirm Password"
+              name="password2"
+              onChange={handleChange}
+              value={data.password2}
+              required
+              className={styles.input}
+            />
+            <input
               type="email"
               placeholder="Email"
               name="email"
@@ -92,7 +118,27 @@ const Signup = (props) => {
               required
               className={styles.input}
             />
-            <input
+            <InputLabel id="role">Role</InputLabel>
+            <Select
+              // labelId="role"
+              // value={data.role}
+              // onChange={handleRoleChange}
+              // label="Role"
+              // className={styles.input}
+              type="role"
+              placeholder="Role"
+              name="role"
+              onChange={handleRoleChange}
+              value={data.role}
+              required
+              className={styles.dropdown}
+            >
+              <MenuItem value={"admin"}>admin</MenuItem>
+              <MenuItem value={"student"}>student</MenuItem>
+              <MenuItem value={"supervisor"}>Supervisor</MenuItem>
+              <MenuItem value={"cosupervisor"}>Co-Supervisor</MenuItem>
+            </Select>
+            {/* <input
               type="role"
               placeholder="Role"
               name="role"
@@ -100,7 +146,7 @@ const Signup = (props) => {
               value={data.role}
               required
               className={styles.input}
-            />
+            /> */}
 
             {data.role == "supervisor" || data.role == "cosupervisor" ? (
               <input

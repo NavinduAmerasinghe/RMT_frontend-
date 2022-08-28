@@ -148,12 +148,12 @@ h1,
   background-color: #4caf50; /* Green */
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 10px 27px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  border-radius: 50px 20px;
+  font-size: 11px;
+  border-radius: 45px 15px;
 }
 .file-title {
   /* background-color: #6d726d; */
@@ -193,19 +193,17 @@ h1,
   margin-left: 5%;
 }
 
-.files-container {
+.filescontainer {
   width: 98%;
   overflow-x: auto;
+  /* margin-left: 500px; */
+  padding-left: 500px;
 }
 
 .upload-section {
   display: flex;
   height: 200px;
   margin-bottom: 10px;
-
-  /* & > div {
-    width: 50%;
-  } */
 }
 
 .drop-zone {
@@ -218,8 +216,10 @@ h1,
   justify-content: center;
   align-items: center;
   cursor: pointer;
-
-  /* &:focus {
-    outline: none;
-  } */
+}
+tr,
+td,
+th {
+  border: 1px solid #ccc;
+  padding: 5px;
 }

@@ -37,6 +37,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import AdminPage from "../Admin/AdminPage/AdminPage";
+import TextField from "@material-ui/core/TextField";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root2: {
     width: "100%",
-    margin: theme.spacing(35),
+    margin: theme.spacing(60),
     width: theme.spacing(157),
     height: theme.spacing(60),
     marginTop: theme.spacing(0),
@@ -97,9 +98,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GroupDetails() {
+  const [allocatePanelMember, setAllocatePanelMember] = useState({
+    groupName: "",
+    panelMemberName: "",
+    feedback: "",
+  });
   const [panelMember, setpanelMember] = useState([]);
   const [creategroup, setCreategroup] = useState([]);
-  const [feedback, setfeedback] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8000/allocatePanelMembers/", allocatePanelMember)
+      .then((res) => {
+        alert("Added Successfully!");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        alert(error.message);
+      });
+  };
 
   useEffect(() => {
     (async () => {
@@ -107,7 +125,7 @@ export default function GroupDetails() {
       setCreategroup(result.data.data);
     })();
   }, []);
-  // console.log(creategroup);
+  console.log(creategroup);
 
   //This useEffect function used to get all panel member data
   useEffect(() => {
@@ -118,15 +136,22 @@ export default function GroupDetails() {
   }, []);
   console.log(panelMember);
 
+  // function handlePanelMemeber(e) {
+  //   e.preventDefault();
+  //   setpanelMember({ ...panelMember, panelMember: e.target.value });
+  // }
+
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
+    event.preventDefault();
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
+    event.preventDefault();
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -143,45 +168,12 @@ export default function GroupDetails() {
     },
   });
 
-  //button toggole
-  const [open1, setOpen1] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen1(true);
-  };
-
-  const handleClickOpenbtn1 = (e) => {
-    e.preventDefault();
-    alert("Panel Member Assigned Successfully!");
-    // console.log(creategroup);
-    // axios
-    //   .post("http://localhost:8000/creategroup/", creategroup)
-    //   .then((res) => {
-    //     alert("Panel Member Assigned Successfully!");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //     alert(error.message);
-    //   });
-  };
-  const handleClickOpenbtn2 = () => {
-    setOpen2(true);
-  };
-
-  const handleClosebtn1 = () => {
-    setOpen1(false);
-  };
-  const handleClosebtn2 = () => {
-    setOpen2(false);
-  };
-
   return (
     <div>
       <AdminPage />
       <div className={classes.root2}>
         <Typography variant="h4" gutterBottom>
-          Allocate Panel Members
+          <center> Allocate Panel Members</center>
         </Typography>
 
         <Paper className={classes.root}>
@@ -198,103 +190,71 @@ export default function GroupDetails() {
                       {column.label}
                     </TableCell>
                   ))}
-                  {/* <TableCell>Action</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {creategroup.map((sup) => (
                   <TableRow key={sup._id}>
                     <TableCell>{sup.groupName}</TableCell>
-                    {/* <TableCell>{sup.panelMember}</TableCell>
-                    <TableCell>{sup.feedback}</TableCell> */}
 
                     <TableCell>
-                      <Button variant="outlined" onClick={handleClick}>
-                        Select Panel Member
-                      </Button>
-                      <Dialog
-                        open={open1}
-                        onClose={handleClosebtn1}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        label="Panel Member Name"
+                        sx={{ width: 395 }}
+                        onChange={(e) =>
+                          setAllocatePanelMember({
+                            ...allocatePanelMember,
+                            panelMember: e.target.value,
+                          })
+                        }
                       >
-                        <DialogTitle id="alert-dialog-title">
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                              <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                                label="Panel Member Name"
-                                sx={{ width: 395 }}
-                                onChange={(e) =>
-                                  setpanelMember({
-                                    ...creategroup,
-                                    panelMember: e.target.value,
-                                  })
-                                }
-                              >
-                                <MenuItem value="">
-                                  <em>Select Panel Member </em>
-                                </MenuItem>
-                                {panelMember.map((pm) => {
-                                  return pm.role === "panelmember" ? (
-                                    <MenuItem value={pm.username}>
-                                      {pm.username}
-                                    </MenuItem>
-                                  ) : null;
-                                })}
-                              </Select>
-                            </Grid>
-                          </Grid>
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            Admin has bee granted access to add relevant Panel
-                            Members to suitable groups, regarding the research
-                            topic which students as selected
-                          </DialogContentText>
-                        </DialogContent>
-
-                        <DialogActions>
-                          {/* <Button onClick={handleClosebtn1}>Disagree</Button> */}
-                          <Button
-                            onSubmit={handleClosebtn1}
-                            type="submit"
-                            autoFocus
-                          >
-                            Agree
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
+                        <MenuItem value="">
+                          <em>Select Panel Member </em>
+                        </MenuItem>
+                        {panelMember.map((pm) => {
+                          return pm.role === "panelmember" ? (
+                            <MenuItem value={pm.username}>
+                              {pm.username}
+                            </MenuItem>
+                          ) : null;
+                        })}
+                      </Select>
                     </TableCell>
-
                     <TableCell>
-                      <Button variant="outlined" onClick={handleClickOpenbtn2}>
-                        FeedBack
-                      </Button>
-                      <Dialog
-                        open={open2}
-                        onClose={handleClosebtn2}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
+                      <Grid item xs={12}>
+                        <TextField
+                          variant="outlined"
+                          required
+                          fullWidth
+                          id="feedback"
+                          label="Feedback...."
+                          name="feedback"
+                          autoComplete="branchTell"
+                          onChange={(e) =>
+                            setAllocatePanelMember({
+                              ...allocatePanelMember,
+                              feedback: e.target.value,
+                            })
+                          }
+                        />
+                      </Grid>
+                    </TableCell>
+                    <TableCell>
+                      <Link
+                        to={"/allocatePanelMembers"}
+                        type="submit"
+                        class="btn btn-primary"
                       >
-                        <DialogTitle id="alert-dialog-title">
-                          <textarea rows="4" cols="50" />
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            Panel Member has been granted access to add
-                            feedbacks on student groups, regarding the research
-                            topic which students as selected
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={handleClosebtn2}>Disagree</Button>
-                          <Button onClick={handleClosebtn2} autoFocus>
-                            Agree
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
+                        ADD
+                        <button
+                          onClick={(e) => {
+                            handleSubmit(e);
+                          }}
+                          class="btn btn-primary"
+                        ></button>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}

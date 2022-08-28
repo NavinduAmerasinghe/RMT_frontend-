@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
@@ -29,8 +30,23 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import ListIcon from "@mui/icons-material/List";
 
 const drawerWidth = 260;
+function ClippedDrawer() {
+  const [data, setData] = useState({
+    role: "admin",
+  });
 
-export default function ClippedDrawer() {
+  useEffect(() => {
+    (async () => {
+      const result = await axios.get("http://localhost:8000/api/auth/getUser/");
+      if (result.data.role == "admin") {
+        console.log("dqq");
+      }
+      setData(result.data);
+      console.log(result.data);
+      console.log("hhh");
+    })();
+  }, []);
+
   return (
     <div>
       <div class="topnav">
@@ -38,10 +54,10 @@ export default function ClippedDrawer() {
           Research Tool
         </a>
         <a href="/login">Logout</a>
-        <Link to="/signup">Sign In</Link>
-        <Link to="/">Register</Link>
+        <Link to="/signup">Register</Link>
+        <Link to="/">Sign In</Link>
         <Link to="/documentlist">Documentations</Link>
-        <Link to="/">Upload Documents</Link>
+        <Link to="/uploadDocuments">Upload Documents</Link>
         <Link to="/">RP </Link>
 
         <a class="active" href="/adminHomePage">
@@ -79,7 +95,7 @@ export default function ClippedDrawer() {
               />
 
               <List>
-                {["Admin Page", "Starred", "Send email", "Drafts"].map(
+                {["Admin Page", "dd", "Send email", "Drafts"].map(
                   (text, index) => (
                     <ListItem key={text} disablePadding>
                       <ListItemButton>
@@ -97,6 +113,15 @@ export default function ClippedDrawer() {
                     </ListItem>
                   )
                 )}
+                {/* {admin.map((std) => {
+                  return std.role === "admin" ? (
+                    <ListItem key={std._id}>
+                      <ListItemText>{std.username}</ListItemText>
+                      <ListItemText>{std.email}</ListItemText>
+                      <ListItemText>{std.phone}</ListItemText>
+                    </ListItem>
+                  ) : null;
+                })} */}
               </List>
             </center>
 
@@ -216,7 +241,14 @@ export default function ClippedDrawer() {
           <Toolbar />
         </Box>
       </Box>
-      <Footer />
+      <div class="footer">
+        <a className="name" href="#home">
+          Research Tool
+        </a>
+      </div>
+      {/* <Footer /> */}
     </div>
   );
 }
+
+export default ClippedDrawer;

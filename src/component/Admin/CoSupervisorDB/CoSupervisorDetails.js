@@ -117,7 +117,7 @@ export default function SupervisorDetails() {
       body: "Are you sure",
       theme: "dark",
       useTransparency: true,
-      onOk: async function () {
+      onOk: async function() {
         try {
           const result = await (
             await axios.delete(
@@ -133,7 +133,7 @@ export default function SupervisorDetails() {
               icon: "success",
               theme: "dark",
               useTransparency: true,
-              onOk: function () {
+              onOk: function() {
                 window.location = "/supervisorDetails";
               },
             });
@@ -145,18 +145,18 @@ export default function SupervisorDetails() {
             icon: "error",
             theme: "dark",
             useTransparency: true,
-            onOk: function () {},
+            onOk: function() {},
           });
         }
       },
-      onCancel: function () {
+      onCancel: function() {
         SoloAlert.alert({
           title: "Oops!",
           body: "You canceled delete request",
           icon: "warning",
           theme: "dark",
           useTransparency: true,
-          onOk: function () {},
+          onOk: function() {},
         });
       },
     });

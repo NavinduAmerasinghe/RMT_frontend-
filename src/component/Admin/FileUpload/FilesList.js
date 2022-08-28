@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import download from "downloadjs";
 import axios from "axios";
 // import { API_URL } from "../utils/constants";
-import Header from "../../Admin/FileUpload/Header";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import AdminPage from "../AdminPage/AdminPage";
 
@@ -40,25 +39,36 @@ const FilesList = () => {
       }
     }
   };
+  const deleteFile = async (id, path, mimetype) => {
+    try {
+      const result = await axios.get(`http://localhost:8000/delete/${id}`);
+      const split = path.split("/");
+      const filename = split[split.length - 1];
+      setErrorMsg("");
+      return result.data, filename, mimetype;
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setErrorMsg("Error while deleting file. Try again later");
+      }
+    }
+  };
 
   return (
-    <div className="container">
-      <div className="main-content">
+    <div>
+      <AdminPage />
+      <div className="filescontainer">
         <div className="files-container">
           {errorMsg && <p className="errorMsg">{errorMsg}</p>}
-          <h1>Presentation/ Doc Tempaltes and Marking Schemas </h1>
-          <table className="files-table">
+          <h3>Presentation/ Doc Tempaltes and Marking Schemas </h3>
+
+          {/* <table className="files-table"> */}
+          <table>
             <thead>
               <tr>
-                <th>
-                  <center>Title</center>
-                </th>
-                <th>
-                  <center>Description</center>
-                </th>
-                <th>
-                  <center>Download File</center>
-                </th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Download File</th>
+                <th>Delete File</th>
               </tr>
             </thead>
             <tbody>
@@ -66,12 +76,10 @@ const FilesList = () => {
                 filesList.map(
                   ({ _id, title, description, file_path, file_mimetype }) => (
                     <tr key={_id}>
-                      <td className="file-title" align="center">
-                        {title}
-                      </td>
-                      <td className="file-description" align="center">
-                        {description}
-                      </td>
+                      {/* <td className="file-title" align="center"> */}
+                      <td style={{ margin: 5 }}>{title}</td>
+                      {/* <td className="file-description" align="center"> */}
+                      <td style={{ margin: 500 }}>{description}</td>
                       <td>
                         <button
                           className="button"
@@ -83,14 +91,24 @@ const FilesList = () => {
                           Download
                         </button>
                       </td>
+                      <td>
+                        <button
+                          className="button"
+                          href="#/"
+                          onClick={() =>
+                            deleteFile(_id, file_path, file_mimetype)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   )
                 )
               ) : (
                 <tr>
-                  <td colSpan={3} style={{ fontWeight: "300" }}>
-                    No files found. Please add some.
-                  </td>
+                  {/* <td colSpan={3} style={{ fontWeight: "300" }}> */}
+                  <td>No files found. Please add some.</td>
                 </tr>
               )}
             </tbody>

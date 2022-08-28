@@ -10,7 +10,7 @@
 
 .signup_form_container {
   width: 900px;
-  height: 500px;
+  height: 600px;
   display: flex;
   border-radius: 10px;
   box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
@@ -66,6 +66,17 @@
   width: 370px;
   padding: 15px;
   border-radius: 10px;
+  background-color: #edf5f3;
+  margin: 5px 0;
+  font-size: 14px;
+}
+.dropdown {
+  outline: none;
+  border: 1px solid #151b54;
+  width: 370px;
+  /* height: 50px;
+  padding: 15px; */
+  border-radius: 20px;
   background-color: #edf5f3;
   margin: 5px 0;
   font-size: 14px;
